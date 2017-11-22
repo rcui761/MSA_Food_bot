@@ -1,4 +1,5 @@
 var builder = require('botbuilder');
+var food = require('./Favorate food');
 // Some sections have been omitted
 
 exports.startDialog = function (bot) {
@@ -8,12 +9,23 @@ exports.startDialog = function (bot) {
 
     bot.recognizer(recognizer);
 	bot.dialog('GetCalories', function(session, args){
-		
-		session.send("Get calories  intent found");
-		
-	}).triggerAction({
-		matches: "GetCalories"
-	});
+        if (!isAttachment(session)) {
+
+            // Pulls out the food entity from the session if it exists
+            var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
+
+            // Checks if the for entity was found
+            if (foodEntity) {
+                session.send('Calculating calories in %s...', foodEntity.entity);
+                // Insert logic here later
+
+            } else {
+                session.send("No food identified! Please try again");
+            }
+        }
+    }).triggerAction({
+        matches: 'GetCalories'
+    });
 	
 	
 	bot.dialog('DeleteFavourite', function(session, args){
