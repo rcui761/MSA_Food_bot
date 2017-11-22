@@ -16,12 +16,12 @@ exports.startDialog = function (bot) {
 	});
 	
 	
-	bot.dialog('DeletFavourite', function(session, args){
+	bot.dialog('DeleteFavourite', function(session, args){
 		
-		session.send("DeletFavourite intent found");
+		session.send("DeleteFavourite intent found");
 		
 	}).triggerAction({
-		matches: "DeletFavourite"
+		matches: "DeleteFavourite"
 	});
 	
 	bot.dialog('GetFavouriteFood', function(session, args){
