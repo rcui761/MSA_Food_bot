@@ -1,7 +1,7 @@
-var rest = require('../API/Restclient');
+var rest = require('./api/Restclient');
 
 exports.displayFavouriteFood = function getFavouriteFood(session, username){
-    var url = 'https://foodbotmsa.azurewebsites.net/tables/FoodBot';
+    var url = 'http://foodbootmsa1.azurewebsites.net/tables/FoodBot';
     rest.getFavouriteFood(url, session, username, handleFavouriteFoodResponse)
 };
 
@@ -10,7 +10,7 @@ function handleFavouriteFoodResponse(message, session, username) {
     var allFoods = [];
     for (var index in favouriteFoodResponse) {
         var usernameReceived = favouriteFoodResponse[index].username;
-        var favouriteFood = favouriteFoodResponse[index].favouriteFood;
+        var favouriteFood = favouriteFoodResponse[index].favoiriteFood;
 
         //Convert to lower case whilst doing comparison to ensure the user can type whatever they like
         if (username.toLowerCase() === usernameReceived.toLowerCase()) {
