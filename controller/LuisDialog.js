@@ -1,5 +1,5 @@
 var builder = require('botbuilder');
-var food = require('./Favorate food');
+va//r food = require('./Favorate food');
 // Some sections have been omitted
 
 exports.startDialog = function (bot) {
