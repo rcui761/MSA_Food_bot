@@ -1,5 +1,7 @@
 var builder = require('botbuilder');
 var food = require('../FavouriteFood');
+var restaurant = require('./RestaurantCard');
+var nutrition = require('./nutritionCard');
 // Some sections have been omitted
 
 exports.startDialog = function (bot) {
@@ -8,8 +10,9 @@ exports.startDialog = function (bot) {
     var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/a80fea42-4112-4042-8cb2-c1831bd02c7c?subscription-key=2707128c13c84e70926996fd888d8d4e&verbose=true&timezoneOffset=0&q=');
 
     bot.recognizer(recognizer);
+
 	bot.dialog('GetCalories', function (session, args) {
-        // if (!isAttachment(session)) {
+       // if (!isAttachment(session)) {
 
             // Pulls out the food entity from the session if it exists
             var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
@@ -17,12 +20,12 @@ exports.startDialog = function (bot) {
             // Checks if the for entity was found
             if (foodEntity) {
                 session.send('Calculating calories in %s...', foodEntity.entity);
-                // Insert logic here later
+                nutrition.displayNutritionCards(foodEntity.entity, session);
 
             } else {
                 session.send("No food identified! Please try again");
             }
-        // }
+        //}
     }).triggerAction({
         matches: 'GetCalories'
     });
@@ -122,13 +125,24 @@ exports.startDialog = function (bot) {
 
 	
 	
-	bot.dialog('WantFood', function(session, args){
-		
-		session.send("WantFood  intent found");
-		
-	}).triggerAction({
-		matches: "WantFood"
-	});
+	bot.dialog('WantFood', function (session, args) {
+        
+                //if (!isAttachment(session)) {
+                    // Pulls out the food entity from the session if it exists
+                    var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
+        
+                    // Checks if the for entity was found
+                    if (foodEntity) {
+                        session.send('Looking for restaurants which sell %s...', foodEntity.entity);
+                        restaurant.displayRestaurantCards(foodEntity.entity, "auckland", session);
+                    } else {
+                        session.send("No food identified! Please try again");
+                    }
+                //}
+        
+            }).triggerAction({
+                matches: 'WantFood'
+            });
 	
 	bot.dialog('WelcomeIntent', function(session, args){
 		
