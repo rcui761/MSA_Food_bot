@@ -5,7 +5,7 @@ exports.getFavouriteFood = function getData(url, session, username, callback){
         if(err){
             console.log(err);
         }else {
-            callback(body, session, username);
+            callback(body, session, username);// what the meaning of callback 
         }
     });
 };
@@ -20,7 +20,7 @@ exports.postFavouriteFood = function getData(url, username, favouriteFood){
         },
         json: {
             "username" : username,
-            "favoiriteFood" : favouriteFood
+            "favouritefood" : favouriteFood
         }
       };
       
@@ -57,7 +57,7 @@ exports.postFavouriteFood = function getData(url, username, favouriteFood){
 
 }; 
 
-var request = require('request');
+//var request = require('request');
 
 exports.getYelpData = function getData(url,bearer,session, callback){
 
