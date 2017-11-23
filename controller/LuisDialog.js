@@ -2,17 +2,19 @@ var builder = require('botbuilder');
 var food = require('../FavouriteFood');
 var restaurant = require('./RestaurantCard');
 var nutrition = require('./nutritionCard');
+//var cognitive = require('./controller/CustomVision');
+
 // Some sections have been omitted
 
 exports.startDialog = function (bot) {
     
     // Replace {YOUR_APP_ID_HERE} and {YOUR_KEY_HERE} with your LUIS app ID and your LUIS key, respectively.
-    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/a80fea42-4112-4042-8cb2-c1831bd02c7c?subscription-key=2707128c13c84e70926996fd888d8d4e&verbose=true&timezoneOffset=0&q=');
+    var recognizer = new builder.LuisRecognizer('https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/a80fea42-4112-4042-8cb2-c1831bd02c7c?subscription-key=2707128c13c84e70926996fd888d8d4e&verbose=true&timezoneOffset=0&q=');//publish url 
 
     bot.recognizer(recognizer);
 
-	bot.dialog('GetCalories', function (session, args) {
-       // if (!isAttachment(session)) {
+	bot.dialog('GetCalories', function (session, args) {//?? what is args 
+        if (!isAttachment(session)) {
 
             // Pulls out the food entity from the session if it exists
             var foodEntity = builder.EntityRecognizer.findEntity(args.intent.entities, 'food');
@@ -20,20 +22,20 @@ exports.startDialog = function (bot) {
             // Checks if the for entity was found
             if (foodEntity) {
                 session.send('Calculating calories in %s...', foodEntity.entity);
-                nutrition.displayNutritionCards(foodEntity.entity, session);
+                nutrition.displayNutritionCards(foodEntity.entity, session);//call the displaynutritioncards <==this line we want 
 
             } else {
                 session.send("No food identified! Please try again");
             }
-        //}
+        }
     }).triggerAction({
         matches: 'GetCalories'
     });
 	
 	
 	bot.dialog('DeleteFavourite', [
-        function (session, args, next) {
-			console.log('HIT');
+        function (session, args, next) {//what is the session, args and next?????
+			//console.log('HIT');
             session.dialogData.args = args || {};
             if (!session.conversationData["username"]) {
                 builder.Prompts.text(session, "Enter a username to setup your account.");
@@ -134,7 +136,7 @@ exports.startDialog = function (bot) {
                     // Checks if the for entity was found
                     if (foodEntity) {
                         session.send('Looking for restaurants which sell %s...', foodEntity.entity);
-                        restaurant.displayRestaurantCards(foodEntity.entity, "auckland", session);
+                        restaurant.displayRestaurantCards(foodEntity.entity, "auckland", session);//<==this line we want call the restaurant 
                     } else {
                         session.send("No food identified! Please try again");
                     }
@@ -152,4 +154,17 @@ exports.startDialog = function (bot) {
 		matches: "WelcomeIntent"
 	});
 
+}
+
+function isAttachment(session) { 
+    var msg = session.message.text;
+    if ((session.message.attachments && session.message.attachments.length > 0) || msg.includes("http")) {
+        //call custom vision
+        customVision.retreiveMessage(session);//shoud change to cognition ?????
+
+        return true;
+    }
+    else {
+        return false;
+    }
 }

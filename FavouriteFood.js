@@ -1,6 +1,6 @@
 var rest = require('./api/Restclient');
 
-exports.displayFavouriteFood = function getFavouriteFood(session, username){
+exports.displayFavouriteFood = function getFavouriteFood(session, username){//??what is exports?????
     var url = 'http://foodbootmsa1.azurewebsites.net/tables/FoodBot';
     rest.getFavouriteFood(url, session, username, handleFavouriteFoodResponse);
 
@@ -14,17 +14,17 @@ exports.sendFavouriteFood = function postFavouriteFood(session, username, favour
 
  exports.deleteFavouriteFood = function deleteFavouriteFood(session,username,favouriteFood){
     var url  = 'http://foodbootmsa1.azurewebsites.net/tables/FoodBot';
-    rest.getFavouriteFood(url,session, username,function(message,session,username){
+    rest.getFavouriteFood(url,session, username,function(message,session,username){//function???
      var allFoods = JSON.parse(message);
      console.log(allFoods);
 
         for(var i in allFoods) {
 
-            console.log(i);
+            /* console.log(i);
             console.log(allFoods[i].username);
             console.log(username);
             console.log(allFoods[i].favouritefood)
-            console.log(favouriteFood );
+            console.log(favouriteFood ); */
             
             if (allFoods[i].favouritefood == favouriteFood && allFoods[i].username == username) {
                 console.log("HIT DELETE");
