@@ -1,6 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var luis = require('./controller/LuisDialog');
+var cognitive = require('./controller/CognitiveVision');
 // Some sections have been omitted
 
 // Setup Restify Server
@@ -11,8 +12,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat connector for communicating with the Bot Framework Service
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: "b18ce7cb-c4ca-4897-93c3-23eca1792477",
+    appPassword: "nOST318-|(nzwerzUAOY53}"
 });
 
 // Listen for messages from users 
